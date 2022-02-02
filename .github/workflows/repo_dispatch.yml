@@ -1,0 +1,48 @@
+name: Workflow as entrypoint (repository_dispatch)
+'on':
+  push:
+    branches:
+      - main
+
+jobs:
+  main:
+    runs-on: 'ubuntu-20.04'
+    env:
+      REPOSITORY_DISPATCH_EVENT_TYPE: 'release-stg'
+      APP_REPOSITORY_URL: 'https://github.com/gkzz/actions-playground'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set app rpeository workflow url
+        run: echo -n "${{ env.APP_REPOSITORY_URL }}/actions/runs/${GITHUB_RUN_ID}" > /tmp/.appwf.txt
+
+      - name: Read appwf.txt
+        # https://github.com/marketplace/actions/read-file
+        id: read-appwf
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: /tmp/.appwf.txt
+
+      # Manifest repository dispatch
+      # https://github.com/marketplace/actions/dispatch-action
+      # https://github.com/marketplace/actions/repository-dispatch
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          #token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACTIONS_PLAYGROUND_REPOSITORY_DISPATCH }} # Both public and private
+          repository: 'gkzz/actions-dispatch-playground'
+          event-type: ${{ env.REPOSITORY_DISPATCH_EVENT_TYPE }}
+          client-payload: '{
+            "github_sha": "${{ github.sha }}",
+            "appwf_url": "${{ steps.read-appwf.outputs.content }}"}'
+
+
+      #- name: Repository Dispatch with curl command
+      #  run: |
+      #    curl -X POST \
+      #    -H "Accespt: application/vnd.github.v3+json" \
+      #    -H "Authorization: token ${{ secrets.ACTIONS_PLAYGROUND_REPOSITORY_DISPATCH }}" \
+      #    https://api.github.com/repos/gkzz/actions-dispatch-playground/dispatches \
+      #    -d '{"event_type": "${{ env.REPOSITORY_DISPATCH_EVENT_TYPE }}", "client_payload": {"github_sha": "${{ github.sha }}", "appwf_url": "${{ steps.read-appwf.outputs.content }}"}}'
