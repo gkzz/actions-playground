@@ -2,8 +2,7 @@ name: Workflow as entrypoint (repository_dispatch)
 'on':
   push:
     branches:
-#      - main
-      - ignored
+      - main
 
 jobs:
   main:
