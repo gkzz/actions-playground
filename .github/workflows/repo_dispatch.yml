@@ -35,7 +35,7 @@ jobs:
           repository: 'gkzz/actions-dispatch-playground'
           event-type: ${{ env.REPOSITORY_DISPATCH_EVENT_TYPE }}
           client-payload: '{
-            "ref": "main",
+            "ref": "work",
             "github_sha": "${{ github.sha }}",
             "appwf_url": "${{ steps.read-appwf.outputs.content }}"}'
 
