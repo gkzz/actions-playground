@@ -4,7 +4,6 @@ name: Workflow as entrypoint (workflow_dispatch)
     branches:
       - main
 
-
 jobs:
   main:
     runs-on: 'ubuntu-20.04'
