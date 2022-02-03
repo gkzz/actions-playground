@@ -30,7 +30,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          #token: ${{ secrets.GITHUB_TOKEN }} # 権限足りない
+          #token: ${{ secrets.GITHUB_TOKEN }} # 権限が足りない
           token: ${{ secrets.ACTIONS_PLAYGROUND_REPOSITORY_DISPATCH }} # Both public and private
           repository: 'gkzz/actions-dispatch-playground'
           event-type: ${{ env.REPOSITORY_DISPATCH_EVENT_TYPE }}
