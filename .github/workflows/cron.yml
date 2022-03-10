@@ -13,7 +13,7 @@ jobs:
     steps:
       - run: |
           if [ $(date +%u) -eq 1 ]; then echo '::set-output name=DAY_OF_WEEK::Monday'; fi
-      - id: dayofweek
+        id: dayofweek
     outputs:
       output-echo: ${{ steps.dayofweek.outputs.DAY_OF_WEEK }}
 
