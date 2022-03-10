@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ $(date +%u) -eq 1 ]; then echo '::set-output name=DAY_OF_WEEK::Monday'; fi
+          if [ $(date +%u) -eq 1 ]; then echo "::set-output name=today::Monday"; fi
         id: dayofweek
     outputs:
-      output-echo: ${{ steps.dayofweek.outputs.DAY_OF_WEEK }}
+      output-echo: ${{ steps.dayofweek.outputs.today }}
 
   # Run only Monday 
   playground:
