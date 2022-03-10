@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ $(date +%u) -eq 4 ]; then echo "::set-output name=today::Monday"; fi
+          if [ $(date +%u) -eq 1 ]; then echo "::set-output name=today::Monday"; fi
         id: dayofweek
     outputs:
       output-echo: ${{ steps.dayofweek.outputs.today }}
