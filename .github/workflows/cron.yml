@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: if [ $(date +%u) -eq 1 ]; then exit 0; else exit 1; fi
+	    continue-on-error: true
 
   # Run only Monday 
   playground:
