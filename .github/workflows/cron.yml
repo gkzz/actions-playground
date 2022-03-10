@@ -27,3 +27,5 @@ jobs:
       - name: echo dayofweek
         run: |
           echo ${{ needs.check-if-today-is-monday.outputs.output-dayofweek }}
+      - name: echo hoge
+        run: echo "hoge"
