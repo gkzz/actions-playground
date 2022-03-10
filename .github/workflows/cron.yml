@@ -22,6 +22,7 @@ jobs:
     name: Playground Job
     runs-on: ubuntu-latest
     needs: check-if-today-is-monday
+    if: ${{ needs.check-if-today-is-monday.outputs.output-echo }} == "Monday"
     steps:
       - name: echo DAY_OF_WEEK
         run: |
