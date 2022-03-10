@@ -4,6 +4,7 @@ name: Playground
 on:
   schedule:
     - cron: 20 9 10-11 * *
+  workflow_dispatch:
 
 jobs:
   check-if-today-is-monday:
