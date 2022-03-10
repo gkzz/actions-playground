@@ -1,0 +1,21 @@
+name: Playground
+
+#on: push
+on:
+  schedule:
+    - cron: 20 9 10-11 * *
+
+jobs:
+  check-if-today-is-monday:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if today is Monday
+        run: if [ ${date +%u} -eq 4]; exit 0
+  playground:
+    needs: check-if-today-is-monday
+    name: Playground Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello, world!
+        run: |
+          echo "Hello, world!"
