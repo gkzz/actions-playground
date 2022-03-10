@@ -8,14 +8,16 @@ on:
 
 jobs:
   check-if-today-is-monday:
-    name: check if today is Monday
+    name: Check if today is Monday
     runs-on: ubuntu-latest
     steps:
       - run: if [ $(date +%u) -eq 4 ]; then exit 0; fi
-  playground: # Run only Monday
-    needs: check-if-today-is-monday
+
+  # Run only Monday 
+  playground:
     name: Playground Job
     runs-on: ubuntu-latest
+    needs: check-if-today-is-monday
     steps:
       - name: Hello, world!
         run: |
