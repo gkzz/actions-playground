@@ -25,4 +25,4 @@ jobs:
     steps:
       - name: echo DAY_OF_WEEK
         run: |
-          echo ${{ needs.dayofweek.outputs.output-echo }}
+          echo ${{ needs.check-if-today-is-monday.outputs.output-echo }}
