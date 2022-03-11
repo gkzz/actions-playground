@@ -3,7 +3,8 @@ name: Playground
 #on: push
 on:
   schedule:
-    - cron: 55 9 10-11 * *  # At 06:55 pm on every day-of-month from 10 through 11.(JST) 
+    - cron: 25 16 10-11 * 5
+#    - cron: 55 9 10-11 * *  # At 06:55 pm on every day-of-month from 10 through 11.(JST)
   workflow_dispatch:
 
 jobs:
@@ -12,20 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ $(date +%u) -eq 4 ]; then echo "::set-output name=today::Monday"; fi
-        id: dayofweek
+          if [ $(date +%u) -eq 5 ]; then echo "::set-output name=today::Monday"; fi
+        id: day-of-week
     outputs:
-      output-dayofweek: ${{ steps.dayofweek.outputs.today }}
+      day-of-week: ${{ steps.day-of-week.outputs.today }}
 
   # Run only Monday 
   playground:
     name: Playground Job
     runs-on: ubuntu-latest
     needs: check-if-today-is-monday
-    if: needs.check-if-today-is-monday.outputs.output-dayofweek == 'Monday'
+    if: needs.check-if-today-is-monday.outputs.day-of-week == 'Monday'
     steps:
       - name: echo dayofweek
         run: |
-          echo ${{ needs.check-if-today-is-monday.outputs.output-dayofweek }}
+          echo ${{ needs.check-if-today-is-monday.outputs.day-of-week }}
       - name: echo hoge
         run: echo "hoge"
