@@ -12,21 +12,14 @@ jobs:
     name: Check if today is Monday
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          if [ $(date +%u) -eq 5 ]; then echo "::set-output name=today::Monday"; fi
-        id: day-of-week
-    outputs:
-      day-of-week: ${{ steps.day-of-week.outputs.today }}
+      - run: if [ $(date +%u) -ne 1 ]; then exit 1; fi
 
   # Run only Monday 
-  playground:
+  run-only-monday:
     name: Playground Job
     runs-on: ubuntu-latest
     needs: check-if-today-is-monday
-    if: needs.check-if-today-is-monday.outputs.day-of-week == 'Monday'
+    if: success()
     steps:
-      - name: echo dayofweek
-        run: |
-          echo ${{ needs.check-if-today-is-monday.outputs.day-of-week }}
       - name: echo hoge
         run: echo "hoge"
