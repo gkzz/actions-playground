@@ -22,6 +22,6 @@ jobs:
     if: success()
     steps:
       - name: echo day-of-week
-        run: echo ${{ needs.date.outputs.day-of-week }}
+        run: echo ${{ needs.run-only-monday.outputs.day-of-week }}
 
 
