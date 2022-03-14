@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "::set-output name=today::$(LANG=C date '+%A')"
-      - name: Run only Monday
         id: day-of-week
     outputs:
       day-of-week: ${{ steps.day-of-week.outputs.today }}
