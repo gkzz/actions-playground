@@ -2,9 +2,6 @@ name: Playground
 
 #on: push
 on:
-  schedule:
-#    - cron: 45 16 10-11 * 5
-    - cron: 45 16 10-11 * *  # At 13:45 pm on every day-of-month from 10 through 11.(JST)
   workflow_dispatch:
 
 jobs:
