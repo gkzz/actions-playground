@@ -12,7 +12,7 @@ jobs:
     name: Check if today is Monday
     runs-on: ubuntu-latest
     steps:
-      - run: if [ $(date +%u) -ne 1 ]; then exit 1; fi
+      - run: if [ $(date +%u) -ne 2 ]; then exit 1; fi
       - name: Run only Monday
         if: success()
         run: echo "hoge"
