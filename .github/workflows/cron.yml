@@ -9,10 +9,11 @@ jobs:
     name: Check if today is Monday
     runs-on: ubuntu-latest
     steps:
-      - run: if [ $(date +%u) -ne 2 ]; then exit 1; fi
+      - run: echo "::set-output name=today::$(LANG=C date '+%A')"
       - name: Run only Monday
-        if: success()
-        run: echo "hoge"
+        id: day-of-week
+    outputs:
+      day-of-week: ${{ steps.day-of-week.outputs.today }}
 
   # Run only Monday
   run-only-monday:
@@ -21,7 +22,7 @@ jobs:
     needs: check-if-today-is-monday
     if: success()
     steps:
-      - name: echo hoge
-        run: echo "hoge"
+      - name: echo day-of-week
+        run: echo ${{ needs.date.outputs.day-of-week }}
 
 
