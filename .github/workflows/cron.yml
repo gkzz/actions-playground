@@ -37,6 +37,7 @@ jobs:
     name: echo
     runs-on: ubuntu-latest
     if: always()
+    needs: date
     steps:
       - name: echo hoge
         run: echo "hoge"
