@@ -3,7 +3,9 @@ name: Playground
 #on: push
 on:
   schedule:
-    - cron: '00 5 16-17 * 4' # At 02:00 pm on every day-of-month from 16 through 17 and on Thursday. (JST)
+#    - cron: '00 5 16-17 * 4' # At 02:00 pm on every day-of-month from 16 through 17 and on Thursday. (JST)
+# Expected not to call a worklfow by the following cron expression
+    - cron: '00 11 16-17 * 5' # At 08:00 pm on every day-of-month from 16 through 17 and on Friday. (JST)
   workflow_dispatch:
 
 jobs:
@@ -22,7 +24,7 @@ jobs:
     needs: date
     #  直前の "date" Job で outputs を使って date コマンドの結果を保持し、
     # 実行したい 曜日 である場合のみ Job を実行
-    if: needs.date.outputs.day-of-week == 'Thursday'
+    if: needs.date.outputs.day-of-week == 'Friday'
     steps:
       - name: echo day-of-week
         run: echo ${{ needs.date.outputs.day-of-week }}
@@ -31,3 +33,10 @@ jobs:
         run: echo "hoge"
 
 
+  echo-always:
+    name: echo
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: echo hoge
+        run: echo "hoge"
