@@ -3,7 +3,7 @@ name: Playground
 #on: push
 on:
   schedule:
-    - cron: '30 12 14-15 * 2' # At 09:30 am on every day-of-month from 14 through 15 and on Tuesday. (JST)
+    - cron: '00 5 16-17 * 4' # At 02:00 pm on every day-of-month from 16 through 17 and on Thursday. (JST)
   workflow_dispatch:
 
 jobs:
@@ -16,13 +16,13 @@ jobs:
     outputs:
       day-of-week: ${{ steps.day-of-week.outputs.today }}
 
-  run-only-tuesday:
-    name: Run only Tuesday
+  echo:
+    name: echo
     runs-on: ubuntu-latest
     needs: date
     #  直前の "date" Job で outputs を使って date コマンドの結果を保持し、
-    # 実行したい Tuesday である場合のみ Job を実行
-    if: needs.date.outputs.day-of-week == 'Tuesday'
+    # 実行したい 曜日 である場合のみ Job を実行
+    if: needs.date.outputs.day-of-week == 'Thursday'
     steps:
       - name: echo day-of-week
         run: echo ${{ needs.date.outputs.day-of-week }}
