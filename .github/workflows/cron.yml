@@ -7,7 +7,7 @@ on:
 # Expected not to call a worklfow by the following cron expression
 #    - cron: '00 11 16-17 * 5' # At 08:00 pm on every day-of-month from 16 through 17 and on Friday. (JST)
 # on weekday
-    - cron: '15 10 * * 1-5' # At 07:15 pm on every day-of-week from Monday through Friday.
+#    - cron: '15 10 * * 1-5' # At 07:15 pm on every day-of-week from Monday through Friday.
   workflow_dispatch:
 
 jobs:
