@@ -8,21 +8,26 @@ jobs:
     name: A simple job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           check-latest: true
           cache: 'npm'
 
-      ## https://github.com/actions/cache/blob/main/examples.md#macos-and-ubuntu
-      #- uses: actions/cache@v3
-      #  with:
-      #    path: ~/.npm
-      #    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-node-
-      #
-      #- run: npm ci
-      #- name: echo "hoge"
-      #  run: echo "hoge"
+      # https://github.com/actions/cache/blob/main/examples.md#macos-and-ubuntu
+      - uses: actions/cache@v3
+        id: cache-node
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: after cache
+        run: echo "${{steps.cache-node.outputs.cache-hit}}"
+
+      - run: npm ci
+
+      - name: echo name of package.json
+        run: echo ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
