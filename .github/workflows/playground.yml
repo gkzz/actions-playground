@@ -9,15 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      # https://github.com/actions/cache/blob/main/examples.md#macos-and-ubuntu
-      - uses: actions/cache@v3
+      - uses: actions/setup-node@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: '16'
+          check-latest: true
+          cache: 'npm'
 
-      - run: npm ci
-      - name: echo "hoge"
-        run: echo "hoge"
+      ## https://github.com/actions/cache/blob/main/examples.md#macos-and-ubuntu
+      #- uses: actions/cache@v3
+      #  with:
+      #    path: ~/.npm
+      #    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-node-
+      #
+      #- run: npm ci
+      #- name: echo "hoge"
+      #  run: echo "hoge"
