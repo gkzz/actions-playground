@@ -3,7 +3,7 @@
   "ignorePresets": [":prHourlyLimit2"],
   "timezone": "Asia/Tokyo",
   "schedule": ["after 10pm and before 5am"],
-  "dependencyDashboard": true,
+  "dependencyDashboard": false,
   "automerge": false,
   "branchConcurrentLimit": 0
 }
