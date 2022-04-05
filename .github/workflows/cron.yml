@@ -2,7 +2,7 @@ name: Cron
 
 #on: push
 on:
-  schedule:
+#  schedule:
 #    - cron: '00 5 16-17 * 4' # At 02:00 pm on every day-of-month from 16 through 17 and on Thursday. (JST)
 # Expected not to call a worklfow by the following cron expression
 #    - cron: '00 11 16-17 * 5' # At 08:00 pm on every day-of-month from 16 through 17 and on Friday. (JST)
