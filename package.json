@@ -1,0 +1,24 @@
+{
+  "name": "actions-playground",
+  "version": "1.0.0",
+  "description": "cf. [gkzz/actions-dispatch-playground](https://github.com/gkzz/actions-dispatch-playground)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkzz/actions-playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gkzz/actions-playground/issues"
+  },
+  "homepage": "https://github.com/gkzz/actions-playground#readme",
+  "devDependencies": {
+    "dd-trace": "^2.6.0",
+    "jest": "^28.0.3"
+  }
+}
