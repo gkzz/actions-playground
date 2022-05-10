@@ -17,3 +17,8 @@ releases:
     chart:
       name: bitnami/redis
     namespace: my-namespace
+  - name: redis-b
+    <<: *options
+    chart:
+      name: bitnami/redis
+    namespace: my-namespace
