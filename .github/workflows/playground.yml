@@ -4,9 +4,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  simele-job:
-    name: A simple job
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: echo "hoge"
-        run: echo "hoge"
+      - uses: actions/checkout@v3
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.2.0
+      - uses: helmwave/setup-action@v0.2.0
+        name: Install helmwave
+        with:
+          version: '0.19.3'
+      - name: templating helmwave.yml.tpl
+        run: helmwave yml
+
+      - name: plan
+        #run: helmwave build
+        run: helmwave build --yml --diff-mode=local
+      - name: deploy
+        #run: helmwave up
+        #run: helmwave up --plandir .helmwave/
+        #run: helmwave up --build
+        run: helmwave up --plandir .helmwave/ --kubedog

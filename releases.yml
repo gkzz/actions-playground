@@ -1,0 +1,3 @@
+releases:
+  - name: redis-a
+  - name: redis-b
