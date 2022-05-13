@@ -4,38 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: azure/setup-kubectl@v2.0
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.2.0
-      - uses: helmwave/setup-action@v0.2.0
-        name: Install helmwave
-        with:
-          version: "0.19.3"
-      - name: plan
-        run: |
-          helmwave build --yml
-      - name: Kubernetes lint action
-        uses: azure/k8s-lint@v1
-        with:
-          lintType: dryrun
-          manifests: |
-            .helmwave/manifest/*.yml
-      - name: Kubeval
-        uses: instrumenta/kubeval-action@master
-        with:
-          files: .helmwave/manifest/
-      - name: Download Pluto
-        uses: FairwindsOps/pluto/github-action@master
-      - name: Use pluto
-        run: |
-          pluto detect-files -d .helmwave/
-
   deploy:
-    needs: lint  
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
