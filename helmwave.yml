@@ -1,0 +1,29 @@
+version: 0.19.3
+
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+.options: &options
+  namespace: my-namespace
+  wait: true
+  timeout: 300s
+  create_namespace: true
+
+# https://helmwave.github.io/docs/0.19.x/tpl/
+releases:
+
+- name: redis-a
+  tags: [redis-a]
+  namespace: my-namespace
+  chart:
+     name: bitnami/redis
+  <<: *options
+
+- name: redis-b
+  tags: [redis-b]
+  namespace: my-namespace
+  chart:
+     name: bitnami/redis
+  <<: *options
+
