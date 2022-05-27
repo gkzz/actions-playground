@@ -13,9 +13,15 @@ jobs:
         id: generate_number
         run:  echo "::set-output name=random_number::$(($RANDOM % 2))"
       - name: Pass or fail # 不安定な Step
+        id: generate_number_outputs
         continue-on-error: true
         run: |
           if [[ ${{ steps.generate_number.outputs.random_number }} == 0 ]]; then exit 0; else exit 1; fi
-# 以下に実行したい Step が続く
-      - run: echo "Hello, World!"
-      - run: echo "Always, OK!"
+      - name: "steps.generate_number_outputs.outcome の値確認"
+        run: echo "${{ steps.generate_number_outputs.outcome }}"
+      - name: "success のときだけ"
+        if: ${{ steps.generate_number_outputs.outcome == 'success' }}
+        run: echo "OK"
+      - name: "failure のときだけ"
+        if: ${{ steps.generate_number_outputs.outcome == 'failure' }}
+        run:  echo "Failed"
