@@ -6,6 +6,8 @@ on:
 jobs:
   randomly-failing-job:
     runs-on: ubuntu-latest
+    outputs:
+      random-number-output: ${{ steps.generate_number.outputs.random_number }}
     steps:
       - id: checkout
         uses: actions/checkout@v3
@@ -32,3 +34,19 @@ jobs:
       - name: "failure のときだけ"
         if: ${{ steps.generate_number_outputs.outcome == 'failure' }}
         run:  echo "Failed"
+
+
+  random-number-output:
+    runs-on: ubuntu-latest
+    needs: randomly-failing-job
+    steps:
+      - name: Echo zero
+        if: ${{ needs.randomly-failing-job.outputs.random-number-output == 0}}
+        run: |
+          echo "AWESOME!!"
+          echo ${{ needs.randomly-failing-job.outputs.random-number-output }}
+      - name: Echo one
+        if: ${{ needs.randomly-failing-job.outputs.random-number-output == 1}}
+        run: |
+          echo "One more time!"
+          echo ${{ needs.randomly-failing-job.outputs.random-number-output }}
