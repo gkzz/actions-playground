@@ -24,19 +24,12 @@ jobs:
           if [[ ${{ steps.generate_number.outputs.random_number }} == 0 ]]; then
           exit 0; else exit 1; fi
 
-      - name: "steps.generate_number_outputs.outcome の値確認"
-        run: echo "${{ steps.generate_number_outputs.outcome }}"
-
-      - name: "steps.generate_number_outputs.conclusion の値確認"
-        run: echo "${{ steps.generate_number_outputs.conclusion }}"
-
-      - name: "success のときだけ"
-        if: ${{ steps.generate_number_outputs.outcome == 'success' }}
-        run: echo "OK"
-
-      - name: "failure のときだけ"
-        if: ${{ steps.generate_number_outputs.outcome == 'failure' }}
-        run:  echo "Failed"
+      - run: echo "Alice"
+        if: success()
+      - run: echo "Bob"
+        if: success()
+      - run: echo "Charlie"
+        if: success()
 
 
   random-number-output:
@@ -46,31 +39,5 @@ jobs:
     #  contents: write
     #  pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-      - name: Echo zero
-        if: ${{ needs.randomly-failing-job.outputs.random-number-output == 0}}
-        run: |
-          echo "AWESOME!!"
-          echo -n ${{ needs.randomly-failing-job.outputs.random-number-output }} >> output.txt
-      - name: Echo one
-        if: ${{ needs.randomly-failing-job.outputs.random-number-output == 1}}
-        run: |
-          echo "One more time!"
-          echo -n ${{ needs.randomly-failing-job.outputs.random-number-output }} >> output.txt
+      - run: echo ${{ needs.randomly-failing-job.outputs.random-number-output }}
 
-      - name: Create Pull Request
-        id: cpr
-        #permissions:
-        #  contents: write
-        #  pull-requests: write
-        uses: peter-evans/create-pull-request@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "mod: output.txt"
-          title: "Generate 0 or 1? ${{ needs.randomly-failing-job.outputs.random-number-output }}"
-          body: "Generate 0 or 1? ${{ needs.randomly-failing-job.outputs.random-number-output }}"
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
