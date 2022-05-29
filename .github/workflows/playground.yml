@@ -3,14 +3,17 @@ name: Playground
 on:
   workflow_dispatch:
 
+#permissions:
+#  contents: write
+#  pull-requests: write
+
 jobs:
   randomly-failing-job:
     runs-on: ubuntu-latest
     outputs:
       random-number-output: ${{ steps.generate_number.outputs.random_number }}
     steps:
-      - id: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Generate 0 or 1
         id: generate_number
         run:  echo "::set-output name=random_number::$(($RANDOM % 2))"
@@ -39,14 +42,35 @@ jobs:
   random-number-output:
     runs-on: ubuntu-latest
     needs: randomly-failing-job
+    #permissions:
+    #  contents: write
+    #  pull-requests: write
     steps:
+      - uses: actions/checkout@v3
       - name: Echo zero
         if: ${{ needs.randomly-failing-job.outputs.random-number-output == 0}}
         run: |
           echo "AWESOME!!"
-          echo ${{ needs.randomly-failing-job.outputs.random-number-output }}
+          echo -n ${{ needs.randomly-failing-job.outputs.random-number-output }} >> output.txt
       - name: Echo one
         if: ${{ needs.randomly-failing-job.outputs.random-number-output == 1}}
         run: |
           echo "One more time!"
-          echo ${{ needs.randomly-failing-job.outputs.random-number-output }}
+          echo -n ${{ needs.randomly-failing-job.outputs.random-number-output }} >> output.txt
+
+      - name: Create Pull Request
+        id: cpr
+        #permissions:
+        #  contents: write
+        #  pull-requests: write
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "mod: output.txt"
+          title: "Generate 0 or 1? ${{ needs.randomly-failing-job.outputs.random-number-output }}"
+          body: "Generate 0 or 1? ${{ needs.randomly-failing-job.outputs.random-number-output }}"
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
