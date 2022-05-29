@@ -19,18 +19,14 @@ jobs:
         run:  echo "::set-output name=random_number::$(($RANDOM % 2))"
       - name: Pass or fail # 不安定な Step
         id: generate_number_outputs
-        continue-on-error: true
         run: |
           if [[ ${{ steps.generate_number.outputs.random_number }} == 0 ]]; then
           exit 0; else exit 1; fi
 
       - run: echo "Alice"
-        if: success()
+        if: always()
       - run: echo "Bob"
-        if: success()
       - run: echo "Charlie"
-        if: success()
-
 
   random-number-output:
     runs-on: ubuntu-latest
